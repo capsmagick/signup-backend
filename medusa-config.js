@@ -42,16 +42,16 @@ const plugins = [
       upload_dir: "uploads",
     },
   },
-  // {
-  //   resolve: "@medusajs/admin",
-  //   /** @type {import('@medusajs/admin').PluginOptions} */
-  //   options: {
-  //     autoRebuild: false,
-  //     develop: {
-  //       open: process.env.OPEN_BROWSER !== "false",
-  //     },
-  //   },
-  // },
+  {
+    resolve: "@medusajs/admin",
+    /** @type {import('@medusajs/admin').PluginOptions} */
+    options: {
+      autoRebuild: false,
+      develop: {
+        open: process.env.OPEN_BROWSER !== "false",
+      },
+    },
+  },
 ];
 
 const modules = {
@@ -82,7 +82,15 @@ const projectConfig = {
 
 /** @type {import('@medusajs/medusa').ConfigModule} */
 module.exports = {
-  projectConfig,
+  projectConfig: {
+    // ...
+    database_extra: process.env.NODE_ENV !== "development" ?
+      {
+        ssl: {
+          rejectUnauthorized: false,
+        },
+      } : {},
+  },
   plugins,
   modules,
 };
